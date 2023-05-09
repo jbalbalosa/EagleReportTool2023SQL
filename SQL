@@ -1,0 +1,44 @@
+/****** Script for SelectTopNRows command from SSMS  ******/
+
+SELECT 
+	DISTINCT
+	  [Item Number]	AS [ITEM NUMBER]
+	 ,(SELECT TOP 1 [ITEM DESCRIPTION] FROM TABLE1 WHERE [ITEM NUMBER] = A.[ITEM NUMBER]) AS [ITEM DESCRIPTION]
+	 ,[PK]
+     ,[UM]
+	 ,[MFG Part #] AS [MFG PART #]
+	 ,SUM(QOH) AS QOH
+	 ,SUM(QOO) AS QOO
+	 ,SUM(QOH + QOO) AS [QTY AVAILABLE]
+	 ,MAX([Order Point]) AS [ORDER POINT]
+	 ,SUM([Sales Units Period 1]) AS [SALES UNIT PERIOD 1]
+     ,SUM([Sales Units Period 2]) AS [SALES UNIT PERIOD 2]
+	 ,SUM([Sales Units Period 3]) AS [SALES UNIT PERIOD 3]
+	 ,SUM([Sales Units Period 4]) AS [SALES UNIT PERIOD 4]
+	 ,SUM([Sales Units Period 5]) AS [SALES UNIT PERIOD 5]
+	 ,SUM([Sales Units Period 6]) AS [SALES UNIT PERIOD 6]
+	 ,SUM([Sales Units Period 7]) AS [SALES UNIT PERIOD 7]
+     ,SUM([Sales Units Period 8]) AS [SALES UNIT PERIOD 8]
+	 ,SUM([Sales Units Period 9]) AS [SALES UNIT PERIOD 9]
+	 ,SUM([Sales Units Period 10]) AS [SALES UNIT PERIOD 10]
+	 ,SUM([Sales Units Period 11]) AS [SALES UNIT PERIOD 11]
+	 ,SUM([Sales Units Period 12]) AS [SALES UNIT PERIOD 12]
+	 ,(SELECT MAX([REP _COST])FROM [db_test].[dbo].[Table1] WHERE [Item Number] = A.[Item Number]) AS [REP COST]
+	 ,[RETAIL _PRICE]     
+	 ,MAX(CONVERT(VARCHAR,[Date Of Last Sale], 23)) AS [DATE OF LAST SALE]
+	 ,MAX(CONVERT(VARCHAR,[Date Of Last Receipt], 23)) AS [DATE OF LAST RECEIPT]
+	 ,[DEPT]
+	 ,[VENDOR]
+     ,(SELECT TOP 1 [Alt Vendor] FROM [db_test].[dbo].[Table1] WHERE STORE = 1 OR STORE = 9 AND [Item Number] = A.[Item Number]) AS [ALT VENDOR]
+     ,[Class]
+	 ,[Code B1]
+	 ,MAX(LOC) AS [LOC]
+	 ,[Disc Item?]
+     ,[Attribute: Cube]
+
+FROM [db_test].[dbo].[Table1] A
+GROUP BY [Item Number],[PK],[UM],[MFG PART #],[RETAIL _PRICE],[DEPT],[VENDOR],[Code B1],[Class],[Disc Item?]
+     ,[Attribute: Cube]
+
+ORDER BY [Item Number]
+      
